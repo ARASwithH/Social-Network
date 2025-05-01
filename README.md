@@ -24,16 +24,3 @@ A simple social network web application built using Django. Users can register, 
 git clone https://github.com/ARASwithH/Social-Network.git
 cd Social-Network
 ```
-
-## 📂 Project Structure
-```bash
-Social-Network/
-├── network/             # Main Django app
-│   ├── models.py        # Post, Like, Follow models
-│   ├── views.py         # Core views and logic
-│   ├── urls.py
-│   └── templates/
-├── static/              # CSS, JS
-├── manage.py
-└── requirements.txt
-```
