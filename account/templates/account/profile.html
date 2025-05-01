@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <!-- Welcome message -->
+    <div class="text-center mb-4">
+        <h2 class="display-4 text-primary">Welcome, {{ request.user.username }}</h2>
+        <p class="lead text-muted">This is your profile page. Manage your posts and account settings here.</p>
+    </div>
+
+    <!-- Profile Actions Card -->
+    <div class="row mb-4">
+        <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1">
+            <div class="card shadow-lg border-light">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Profile Management</h3>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <a href="{% url 'home:post_create' %}" class="btn btn-primary btn-lg w-100 mb-2">Create Post</a>
+                        <a href="{% url 'account:profile_update' request.user.id %}" class="btn btn-primary btn-lg w-100 mb-2">Edit Profile</a>
+                        <a href="{% url 'account:page' request.user.id %}" class="btn btn-primary btn-lg w-100 mb-2">View Page</a>
+
+                        <!-- Logout Button -->
+                        <form method="POST" class="">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-lg w-100">Logout</button>
+                        </form>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-5">
+
+    <!-- Posts Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="mb-4 text-center">Your Posts</h3>
+
+            {% for post in posts %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm">Read more</a>
+                            <span class="text-muted">{{ post.date_posted|date:"F j, Y, g:i a" }}</span>
+                            <span class="badge badge-pill badge-primary">{{ post.like_count }} Likes</span>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">
+                    You haven't posted anything yet.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container mt-5">
+
+    <!-- Search and Sort Form -->
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Search posts..." value="{{ request.GET.search }}">
+        </div>
+
+        <div class="col-md-3">
+            <select name="order" class="form-select">
+                <option value="date_updated" {% if order == 'date_updated' %}selected{% endif %}>Updated Date</option>
+                <option value="date_posted" {% if order == 'date_posted' %}selected{% endif %}>Posted Date</option>
+                <option value="title" {% if order == 'title' %}selected{% endif %}>Title</option>
+            </select>
+        </div>
+
+        <div class="col-md-2 form-check d-flex align-items-center">
+            <input type="checkbox" name="reverse" class="form-check-input" id="reverseCheckbox" {% if reverse %}checked{% endif %}>
+            <label class="form-check-label ms-2" for="reverseCheckbox">Reverse</label>
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Apply</button>
+        </div>
+    </form>
+
+    <!-- Posts List -->
+    {% for post in posts %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">{{ post.title }}</h3>
+                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                        Posted by {{ post.auther.username }} on {{ post.date_posted|date:"F j, Y" }}
+                    </small>
+                    <div>
+                        <span class="badge bg-success">{{ post.like_count }} Likes</span>
+                        <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info" role="alert">
+            No posts found.
+        </div>
+    {% endfor %}
+
+</div>
+
+<footer class="bg-light text-center mt-5 py-3">
+    <p class="mb-0">&copy; 2025 Social Network. All rights reserved.</p>
+</footer>
+
+
+{% endblock %}

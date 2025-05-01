@@ -1,0 +1,25 @@
+<div class="col-md-4">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title" >{{ post.title }}</h5>
+            <p class="card-text">{{ post.content|truncatewords:10 }}</p>
+
+            <p class="card-text">
+                {% if post.auther.id != request.user.id %}
+                <small class="text-muted">By <a href="{% url 'account:page' post.auther.id %}">{{ post.auther }}</a></small><br>
+                {% else %}
+                 <small class="text-muted">By <a href="{% url 'account:profile' %}">{{ post.auther }}</a></small><br>
+                {% endif %}
+                <small>{{ post.like_count }}  <i class="bi bi-heart"></i></small><br>
+
+                <small class="text-muted">on {{ post.date_posted }}</small><br>
+                {% if post.date_posted != post.date_updated %}
+                	<small class="text-muted">last update at {{ post.date_updated }}</small>
+                {% endif %}
+            </p>
+
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+        </div>
+    </div>
+</div>
+
